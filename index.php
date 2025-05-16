@@ -7,8 +7,15 @@
     <div class="col">
         <div class="card h-100 shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Limpieza Profesional</h5>
-                <p class="card-text">Ofrecemos servicios de limpieza para oficinas, hogares y espacios industriales con personal calificado.</p>
+                <h5 class="card-title">PLAN BASICO</h5>
+                <p class="card-text">4 Reels
+                    <p>8 Post Feed
+                        <p>Grabación (1-2)
+                            <p>Estrategia para pauta publicitaria
+                            </p>
+                        </p>
+                    </p>
+                </p>
             </div>
         </div>
     </div>
@@ -17,8 +24,17 @@
     <div class="col">
         <div class="card h-100 shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Mantenimiento Técnico</h5>
-                <p class="card-text">Contamos con técnicos especializados para mantenimiento preventivo y correctivo de instalaciones.</p>
+                <h5 class="card-title">PLAN PREMIUM</h5>
+                <p class="card-text">4 Reels
+                    <p>8 Post Feed
+                        <p>15 Historias
+                            <p>Grabación (1-2)
+                                <p>Estrategia para pauta publicitaria
+                                </p>
+                            </p>
+                        </p>
+                    </p>
+                </p>
             </div>
         </div>
     </div>
@@ -27,8 +43,26 @@
     <div class="col">
         <div class="card h-100 shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Seguridad Privada</h5>
-                <p class="card-text">Brindamos personal de vigilancia capacitado para resguardar empresas y propiedades.</p>
+                <h5 class="card-title">"En un futuro"</h5>
+                <p class="card-text">░░░░░░▄▄▄▄███▄▄▄▄░░░░░░░░░░░░░
+░░░▄▄█▀░░░░░░░░░▀▀▄▄░░░░░░░░░░
+░░█▀░░░░░░░░░░░░░░░▀█▄░░░░░░░░
+░█▀░░░░░░░░░░░░░░░░░░█▄░░░░░░░
+██░░░░░░░░░░░░░░░░░░░░█▄░░░░░░
+█░░░░░░░░░░░░░░░░░░░░░░█▄░░░░░
+██░░░░░░░░░░░░▄▄▄▄▄█▀▀▀██▄░░░░
+▀█░░░░░░░░░▄█▀▀░░▀▀█▄░░░░█▄░░░
+░█▄░▄░░░░░▄█░░░░░░░░█▄░█░░█░░░
+░▄█▄██▄░░░█▄░░██░░░░██▄▄▄██░░░
+░████░▀▀░░░█▄░░░░░░▄█░░░░░██░░
+░█░░██▄▄░░░░▀██▄▄██▀▄▄▄▄▄▄█░░░
+░░▄█▀░░░░░░░░░▄▄██▀▀▀▀▀▀▀░▀█▄░
+░░▀█░░░░░░░▄█▀▀░░░░░░░░░░░░░█▄
+░░░▀█▄▄█▀░█▀░░░░░░░░░░░░░░░▄█▀
+░░░░░░██░▄█░░░█▀██▀▀█▀██▀▀▀▀░░
+░░░░░▄█░░▀█░░▀█░█░░██░██░░░░░░
+░░░░██▀█▄░▀█▄░▀▀████▀▀██░░░░░░
+░░░░█░░░▀▀█▄▀█▄▄▄▄▄▄▄▄██▄░░░░░</p>
             </div>
         </div>
     </div>
