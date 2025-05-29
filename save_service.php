@@ -2,17 +2,31 @@
 session_start();
 require 'db.php';
 
-if ($_SESSION['role'] != 'admin') {
+// Asegurarse de que solo los administradores puedan acceder
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header('Location: login.php');
     exit();
 }
 
-$name = $_POST['name'];
-$description = $_POST['description'];
-$price = $_POST['price'];
+// Verifica que el formulario fue enviado por POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Captura y sanitiza datos
+    $nombre = htmlspecialchars($_POST['nombre']);
+    $descripcion = htmlspecialchars($_POST['descripcion']);
+    $precio = floatval($_POST['precio']);
 
-$stmt = $pdo->prepare("INSERT INTO services (name, description, price) VALUES (?, ?, ?)");
-$stmt->execute([$name, $description, $price]);
+    try {
+        $stmt = $pdo->prepare("INSERT INTO servicios (nombre, descripcion, precio) VALUES (?, ?, ?)");
+        $stmt->execute([$nombre, $descripcion, $precio]);
+        $_SESSION['message'] = "✅ Servicio registrado exitosamente.";
+    } catch (PDOException $e) {
+        $_SESSION['message'] = "❌ Error al registrar el servicio: " . $e->getMessage();
+    }
 
-header('Location: dashboard_admin.php');
-exit();
+    header("Location: dashboard_admin.php");
+    exit();
+} else {
+    $_SESSION['message'] = "⚠️ Acceso inválido.";
+    header("Location: dashboard_admin.php");
+    exit();
+}

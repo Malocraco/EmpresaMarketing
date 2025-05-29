@@ -5,21 +5,39 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-require_once "conexion.php";
+require_once "db.php";
 
 // Obtener todos los usuarios menos el administrador actual
-$stmt = $conn->prepare("SELECT id, username, role FROM users WHERE id != ?");
-$stmt->bind_param("i", $_SESSION['user_id']);
-$stmt->execute();
-$result = $stmt->get_result();
+$stmt = $pdo->prepare("SELECT id, username, role FROM users WHERE id != ?");
+$stmt->execute([$_SESSION['user_id']]);
+$users = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        // Check session status on page load
+        window.onload = function() {
+            fetch('check_session.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.authenticated) {
+                        window.location.href = 'login.php';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking session:', error);
+                    window.location.href = 'login.php';
+                });
+        };
+    </script>
 </head>
 <body class="bg-light">
 
@@ -36,7 +54,7 @@ $result = $stmt->get_result();
             </tr>
         </thead>
         <tbody>
-            <?php while ($row = $result->fetch_assoc()) { ?>
+            <?php foreach ($users as $row) { ?>
                 <tr>
                     <td><?= htmlspecialchars($row['id']) ?></td>
                     <td><?= htmlspecialchars($row['username']) ?></td>

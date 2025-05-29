@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db   = 'sistema_login';
+$db   = 'marketingv';
 $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';
