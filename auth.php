@@ -1,23 +1,17 @@
 <?php
-session_start();
+require_once 'utils.php';
 
-// Prevent caching with robust headers
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
-
-// Validate session
-if (!isset($_SESSION['user_id'])) {
-    session_unset();
-    session_destroy();
-    header("Location: login.php");
-    exit();
-}
-
-// Validate role if required
-if (isset($requiredRole) && $_SESSION['role'] !== $requiredRole) {
-    header("Location: unauthorized.php");
-    exit();
+function checkAuth($required_role = null) {
+    if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
+        debug_log("No session or role, redirecting to login");
+        header('Location: login.php');
+        exit();
+    }
+    if ($required_role && $_SESSION['role'] !== $required_role) {
+        debug_log("Role mismatch, redirecting to unauthorized: required=$required_role, actual=" . $_SESSION['role']);
+        header('Location: unauthorized.php');
+        exit();
+    }
+    debug_log("Auth check passed for role: " . $_SESSION['role']);
 }
 ?>

@@ -1,76 +1,52 @@
 <?php
-require 'db.php';
-session_start();
+require_once 'header.php';
+checkAuth('admin');
+require_once 'db.php';
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    echo "<p>No autorizado.</p>";
-    exit();
-}
+$stmt = $pdo->query("SELECT * FROM services");
+$services = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Obtener todos los servicios
-$stmt = $pdo->query("SELECT * FROM servicios ORDER BY id DESC");
-$servicios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'];
+    $nombre = $_POST['nombre'];
+    $descripcion = $_POST['descripcion'];
+    $reels = $_POST['reels'] ?? null;
+    $post_feed = $_POST['post_feed'] ?? null;
+    $historias = $_POST['historias'] ?? null;
+    $grabaciones = $_POST['grabaciones'] ?? null;
+    $estrategia_publicitaria = $_POST['estrategia_publicitaria'] ?? null;
+    $precio = $_POST['precio'];
 
-// Si se envió el formulario de edición
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar'])) {
-    $idEditar = $_POST['editar'];
-    $stmt = $pdo->prepare("SELECT * FROM servicios WHERE id = ?");
-    $stmt->execute([$idEditar]);
-    $servicioEditar = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("UPDATE services SET nombre = ?, descripcion = ?, reels = ?, post_feed = ?, historias = ?, grabaciones = ?, estrategia_publicitaria = ?, precio = ? WHERE id = ?");
+    $stmt->execute([$nombre, $descripcion, $reels, $post_feed, $historias, $grabaciones, $estrategia_publicitaria, $precio, $id]);
+    header('Location: view_services.php?success=Servicio actualizado');
 }
 ?>
-
-<h3>Servicios Registrados</h3>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($servicios as $servicio): ?>
+    <h1 class="h2">Servicios Registrados</h1>
+    <table class="table">
+        <thead>
             <tr>
-                <td><?= htmlspecialchars($servicio['nombre']) ?></td>
-                <td><?= htmlspecialchars($servicio['descripcion']) ?></td>
-                <td>$<?= number_format($servicio['precio'], 2) ?></td>
-                <td>
-                    <!-- Botón de Editar -->
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="editar" value="<?= $servicio['id'] ?>">
-                        <button type="submit" class="btn btn-sm btn-warning">Editar</button>
-                    </form>
-
-                    <!-- Botón de Eliminar -->
-                    <form action="delete_service.php" method="POST" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar este servicio?');">
-                        <input type="hidden" name="id" value="<?= $servicio['id'] ?>">
-                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                    </form>
-                </td>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Acciones</th>
             </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-
-<?php if (isset($servicioEditar)): ?>
-    <hr>
-    <h4>Editar Servicio</h4>
-    <form action="edit_service.php?id=<?= $servicioEditar['id'] ?>" method="POST">
-        <div class="mb-3">
-            <label>Nombre:</label>
-            <input type="text" name="nombre" class="form-control" value="<?= htmlspecialchars($servicioEditar['nombre']) ?>" required>
-        </div>
-        <div class="mb-3">
-            <label>Descripción:</label>
-            <textarea name="descripcion" class="form-control" rows="3" required><?= htmlspecialchars($servicioEditar['descripcion']) ?></textarea>
-        </div>
-        <div class="mb-3">
-            <label>Precio:</label>
-            <input type="number" step="0.01" name="precio" class="form-control" value="<?= htmlspecialchars($servicioEditar['precio']) ?>" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Actualizar</button>
-    </form>
-<?php endif; ?>
+        </thead>
+        <tbody>
+            <?php foreach ($services as $service): ?>
+                <tr>
+                    <form action="view_services.php" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $service['id']; ?>">
+                        <td><input type="text" name="nombre" value="<?php echo htmlspecialchars($service['nombre']); ?>" class="form-control"></td>
+                        <td><textarea name="descripcion" class="form-control"><?php echo htmlspecialchars($service['descripcion']); ?></textarea></td>
+                        <td><input type="number" step="0.01" name="precio" value="<?php echo $service['precio']; ?>" class="form-control"></td>
+                        <td>
+                            <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+                            <a href="delete_service.php?id=<?php echo $service['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que quieres eliminar este servicio?')">Eliminar</a>
+                        </td>
+                    </form>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php include 'footer.php'; ?>
