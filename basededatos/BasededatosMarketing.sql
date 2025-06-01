@@ -5,10 +5,11 @@ DROP TABLE IF EXISTS cotizaciones;
 DROP TABLE IF EXISTS services;
 DROP TABLE IF EXISTS users;
 
--- Create users table with role as 'cliente' by default
+-- Create users table with correo as unique identifier
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
+    username VARCHAR(50) NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE, -- New unique email field
     password VARCHAR(100) NOT NULL,
     role ENUM('cliente', 'admin') DEFAULT 'cliente' NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
