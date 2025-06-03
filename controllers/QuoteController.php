@@ -16,7 +16,7 @@ class QuoteController {
     }
 
     public function request() {
-        requireLogin();
+        requireLoginWithCache();
         
         if ($_SESSION['role'] === 'admin') {
             setMessage('Los administradores no pueden solicitar cotizaciones', 'warning');
@@ -40,7 +40,7 @@ class QuoteController {
     }
 
     public function list() {
-        requireLogin();
+        requireLoginWithCache();
         
         if ($_SESSION['role'] === 'admin') {
             $quotes = $this->quoteModel->getAllQuotes();
@@ -49,6 +49,61 @@ class QuoteController {
         }
         
         require_once 'views/quote/list.php';
+    }
+
+    public function delete() {
+        requireAdminWithCache();
+        
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            setMessage('ID de cotización no válido', 'danger');
+            redirect('index.php?page=quote&action=list');
+        }
+        
+        if ($this->quoteModel->deleteQuote($id)) {
+            setMessage('Cotización eliminada exitosamente');
+        } else {
+            setMessage('Error al eliminar la cotización', 'danger');
+        }
+        
+        redirect('index.php?page=quote&action=list');
+    }
+
+    public function deleteOwn() {
+        requireLoginWithCache();
+        
+        // Solo permitir a clientes (no admins)
+        if ($_SESSION['role'] === 'admin') {
+            setMessage('Los administradores no pueden usar esta función', 'warning');
+            redirect('index.php?page=quote&action=list');
+        }
+        
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            setMessage('ID de cotización no válido', 'danger');
+            redirect('index.php?page=quote&action=list');
+        }
+        
+        // Verificar que la cotización pertenece al usuario actual
+        $quote = $this->quoteModel->getQuoteById($id);
+        if (!$quote || $quote['usuario_id'] != $_SESSION['user_id']) {
+            setMessage('No tienes permisos para eliminar esta cotización', 'danger');
+            redirect('index.php?page=quote&action=list');
+        }
+        
+        // No permitir eliminar cotizaciones ya pagadas
+        if ($quote['estado'] === 'pagada') {
+            setMessage('No puedes eliminar una cotización que ya ha sido pagada', 'warning');
+            redirect('index.php?page=quote&action=list');
+        }
+        
+        if ($this->quoteModel->deleteQuote($id)) {
+            setMessage('Cotización eliminada exitosamente');
+        } else {
+            setMessage('Error al eliminar la cotización', 'danger');
+        }
+        
+        redirect('index.php?page=quote&action=list');
     }
 }
 ?>

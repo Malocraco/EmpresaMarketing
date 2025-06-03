@@ -54,5 +54,50 @@ class UserModel {
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function updateUserByAdmin($userId, $username, $correo) {
+        try {
+            $stmt = $this->db->prepare("UPDATE users SET username = ?, correo = ? WHERE id = ?");
+            return $stmt->execute([$username, $correo, $userId]);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function deleteUser($userId) {
+        try {
+            // Primero eliminar registros relacionados
+            $this->db->beginTransaction();
+            
+            // Eliminar pagos del usuario
+            $stmt = $this->db->prepare("DELETE FROM pagos WHERE usuario_id = ?");
+            $stmt->execute([$userId]);
+            
+            // Eliminar cotizaciones del usuario
+            $stmt = $this->db->prepare("DELETE FROM cotizaciones WHERE usuario_id = ?");
+            $stmt->execute([$userId]);
+            
+            // Eliminar reportes si es admin
+            $stmt = $this->db->prepare("DELETE FROM reportes WHERE admin_id = ?");
+            $stmt->execute([$userId]);
+            
+            // Finalmente eliminar el usuario
+            $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
+            $result = $stmt->execute([$userId]);
+            
+            $this->db->commit();
+            return $result;
+        } catch (PDOException $e) {
+            $this->db->rollback();
+            return false;
+        }
+    }
+
+    public function getUsersCount() {
+        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM users");
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
 }
 ?>

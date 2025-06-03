@@ -44,4 +44,28 @@ function getMessage() {
     }
     return null;
 }
+
+function preventCaching() {
+    // Prevenir caché del navegador para páginas protegidas
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Fecha en el pasado
+}
+
+function requireLoginWithCache() {
+    preventCaching();
+    if (!isLoggedIn()) {
+        header('Location: index.php?page=user&action=login');
+        exit();
+    }
+}
+
+function requireAdminWithCache() {
+    preventCaching();
+    if (!isAdmin()) {
+        header('Location: unauthorized.php');
+        exit();
+    }
+}
 ?>

@@ -106,7 +106,50 @@ $message = getMessage();
         .dropdown-menu {
             box-shadow: 0 5px 15px rgba(233, 30, 99, 0.2);
         }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            border: none;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #f57c00, #ef6c00);
+            color: white;
+        }
+
+        .d-flex.gap-2 {
+            gap: 0.5rem !important;
+        }
+        
+        /* Estilos para los iconos sociales */
+        .social-icons .btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+        
+        .social-icons .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--pink-dark);
+            color: white;
+            border-color: var(--pink-dark);
+        }
+        
+        .social-icons .bi {
+            font-size: 1.2rem;
+        }
     </style>
+    <?php if (isLoggedIn()): ?>
+    <?php include 'views/templates/session_check.php'; ?>
+    <?php endif; ?>
 </head>
 <body>
     <?php if (isLoggedIn()): ?>
@@ -129,29 +172,37 @@ $message = getMessage();
                     </li>
                     
                     <?php if (isAdmin()): ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear"></i> Administración
+                    <!-- Eliminar todos estos enlaces de navegación para admin -->
+                    <!-- 
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?page=service&action=list">
+                            <i class="bi bi-list-ul"></i> Servicios
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="index.php?page=service&action=list">
-                                <i class="bi bi-list-ul"></i> Servicios
-                            </a></li>
-                            <li><a class="dropdown-item" href="index.php?page=user&action=list">
-                                <i class="bi bi-people"></i> Usuarios
-                            </a></li>
-                            <li><a class="dropdown-item" href="index.php?page=quote&action=list">
-                                <i class="bi bi-file-text"></i> Cotizaciones
-                            </a></li>
-                            <li><a class="dropdown-item" href="index.php?page=payment&action=list">
-                                <i class="bi bi-credit-card"></i> Pagos
-                            </a></li>
-                            <li><a class="dropdown-item" href="index.php?page=report&action=list">
-                                <i class="bi bi-graph-up"></i> Reportes
-                            </a></li>
-                        </ul>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?page=user&action=list">
+                            <i class="bi bi-people"></i> Usuarios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?page=quote&action=list">
+                            <i class="bi bi-file-text"></i> Cotizaciones
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?page=payment&action=list">
+                            <i class="bi bi-credit-card"></i> Pagos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?page=report&action=list">
+                            <i class="bi bi-graph-up"></i> Reportes
+                        </a>
+                    </li>
+                    -->
                     <?php else: ?>
+                    <!-- Eliminar todos estos enlaces de navegación para clientes -->
+                    <!-- 
                     <li class="nav-item">
                         <a class="nav-link" href="index.php?page=quote&action=request">
                             <i class="bi bi-plus-circle"></i> Solicitar Cotización
@@ -167,6 +218,7 @@ $message = getMessage();
                             <i class="bi bi-credit-card"></i> Mis Pagos
                         </a>
                     </li>
+                    -->
                     <?php endif; ?>
                 </ul>
                 

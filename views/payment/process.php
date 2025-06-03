@@ -30,9 +30,7 @@
                                     <select class="form-select" id="metodo_pago" name="metodo_pago" required>
                                         <option value="">Seleccione un método...</option>
                                         <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
-                                        <option value="Tarjeta de Débito">Tarjeta de Débito</option>
-                                        <option value="Transferencia Bancaria">Transferencia Bancaria</option>
-                                        <option value="PayPal">PayPal</option>
+                                        <option value="Nequi">Nequi</option>
                                     </select>
                                 </div>
                                 

@@ -43,5 +43,12 @@ class PaymentModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getPaymentsCount() {
+        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM pagos");
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
 }
 ?>

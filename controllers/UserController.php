@@ -73,12 +73,54 @@ class UserController {
     }
 
     public function dashboard() {
-        requireLogin();
-        require_once 'views/user/dashboard.php';
+        requireLoginWithCache();
+        
+        if (isAdmin()) {
+            // Obtener datos reales para el dashboard del admin
+            require_once 'models/ServiceModel.php';
+            require_once 'models/QuoteModel.php';
+            require_once 'models/PaymentModel.php';
+            require_once 'models/ReportModel.php';
+            
+            $serviceModel = new ServiceModel();
+            $quoteModel = new QuoteModel();
+            $paymentModel = new PaymentModel();
+            $reportModel = new ReportModel();
+            
+            // Obtener conteos reales
+            $totalServices = $serviceModel->getServicesCount();
+            $totalUsers = $this->userModel->getUsersCount();
+            $totalQuotes = $quoteModel->getQuotesCount();
+            $totalPayments = $paymentModel->getPaymentsCount();
+            $totalReports = $reportModel->getReportsCount();
+            
+            require_once 'views/user/dashboard.php';
+        } else {
+            // Obtener servicios reales para mostrar en el dashboard del cliente
+            require_once 'models/ServiceModel.php';
+            require_once 'models/QuoteModel.php';
+            
+            $serviceModel = new ServiceModel();
+            $quoteModel = new QuoteModel();
+            
+            $services = $serviceModel->getAllServices();
+            $userQuotes = $quoteModel->getQuotesByUser($_SESSION['user_id']);
+            
+            // Calcular estadísticas del usuario
+            $activeQuotes = count(array_filter($userQuotes, function($quote) {
+                return $quote['estado'] === 'pendiente';
+            }));
+            
+            $completedProjects = count(array_filter($userQuotes, function($quote) {
+                return $quote['estado'] === 'pagada';
+            }));
+            
+            require_once 'views/user/dashboard.php';
+        }
     }
 
     public function changeUsername() {
-        requireLogin();
+        requireLoginWithCache();
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newUsername = sanitize($_POST['username']);
@@ -96,7 +138,7 @@ class UserController {
     }
 
     public function changePassword() {
-        requireLogin();
+        requireLoginWithCache();
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $currentPassword = $_POST['current_password'];
@@ -120,9 +162,75 @@ class UserController {
     }
 
     public function list() {
-        requireAdmin();
+        requireAdminWithCache();
         $users = $this->userModel->getAllUsers();
         require_once 'views/user/list.php';
     }
+
+public function edit() {
+    requireAdminWithCache();
+    
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        setMessage('ID de usuario no válido', 'danger');
+        redirect('index.php?page=user&action=list');
+    }
+    
+    // No permitir que el admin se edite a sí mismo
+    if ($id == $_SESSION['user_id']) {
+        setMessage('No puedes editar tu propia cuenta desde aquí', 'warning');
+        redirect('index.php?page=user&action=list');
+    }
+    
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = sanitize($_POST['username']);
+        $correo = sanitize($_POST['correo']);
+        
+        if ($this->userModel->updateUserByAdmin($id, $username, $correo)) {
+            setMessage('Usuario actualizado exitosamente');
+            redirect('index.php?page=user&action=list');
+        } else {
+            setMessage('Error al actualizar el usuario. El correo ya existe.', 'danger');
+        }
+    }
+    
+    $user = $this->userModel->getUserById($id);
+    if (!$user) {
+        setMessage('Usuario no encontrado', 'danger');
+        redirect('index.php?page=user&action=list');
+    }
+    
+    require_once 'views/user/edit.php';
+}
+
+public function delete() {
+    requireAdminWithCache();
+    
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        setMessage('ID de usuario no válido', 'danger');
+        redirect('index.php?page=user&action=list');
+    }
+    
+    // No permitir que el admin se elimine a sí mismo
+    if ($id == $_SESSION['user_id']) {
+        setMessage('No puedes eliminar tu propia cuenta', 'danger');
+        redirect('index.php?page=user&action=list');
+    }
+    
+    if ($this->userModel->deleteUser($id)) {
+        setMessage('Usuario eliminado exitosamente');
+    } else {
+        setMessage('Error al eliminar el usuario', 'danger');
+    }
+    
+    redirect('index.php?page=user&action=list');
+}
+
+public function checkSession() {
+    header('Content-Type: application/json');
+    echo json_encode(['authenticated' => isLoggedIn()]);
+    exit();
+}
 }
 ?>

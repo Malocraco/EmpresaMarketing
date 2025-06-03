@@ -55,5 +55,32 @@ class QuoteModel {
         $stmt = $this->db->prepare("UPDATE cotizaciones SET estado = ? WHERE id = ?");
         return $stmt->execute([$status, $id]);
     }
+
+    public function deleteQuote($id) {
+        try {
+            $this->db->beginTransaction();
+        
+            // Primero eliminar los pagos relacionados con esta cotización
+            $stmt = $this->db->prepare("DELETE FROM pagos WHERE cotizacion_id = ?");
+            $stmt->execute([$id]);
+        
+            // Luego eliminar la cotización
+            $stmt = $this->db->prepare("DELETE FROM cotizaciones WHERE id = ?");
+            $result = $stmt->execute([$id]);
+        
+            $this->db->commit();
+            return $result;
+        } catch (PDOException $e) {
+            $this->db->rollback();
+            return false;
+        }
+    }
+
+    public function getQuotesCount() {
+        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM cotizaciones");
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
 }
 ?>

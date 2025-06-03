@@ -1,4 +1,8 @@
-<?php require_once 'views/templates/header.php'; ?>
+<?php 
+// Prevenir caché en la página de login también
+preventCaching();
+require_once 'views/templates/header.php'; 
+?>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -34,5 +38,12 @@
         </div>
     </div>
 </div>
+
+<script>
+// Limpiar el historial del navegador después del login exitoso
+if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+}
+</script>
 
 <?php require_once 'views/templates/footer.php'; ?>

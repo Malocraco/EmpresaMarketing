@@ -13,7 +13,7 @@ class ReportController {
     }
 
     public function create() {
-        requireAdmin();
+        requireAdminWithCache();
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $titulo = sanitize($_POST['titulo']);
@@ -31,7 +31,7 @@ class ReportController {
     }
 
     public function list() {
-        requireAdmin();
+        requireAdminWithCache();
         $reports = $this->reportModel->getAllReports();
         require_once 'views/report/list.php';
     }

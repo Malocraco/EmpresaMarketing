@@ -46,11 +46,17 @@
                 </div>
                 <div class="card-footer">
                     <?php if (isAdmin()): ?>
-                    <a href="index.php?page=service&action=delete&id=<?= $service['id'] ?>" 
-                       class="btn btn-danger btn-sm"
-                       onclick="return confirm('¿Estás seguro de eliminar este servicio?')">
-                        <i class="bi bi-trash"></i> Eliminar
-                    </a>
+                    <div class="d-flex gap-2">
+                        <a href="index.php?page=service&action=edit&id=<?= $service['id'] ?>" 
+                           class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil"></i> Editar
+                        </a>
+                        <a href="index.php?page=service&action=delete&id=<?= $service['id'] ?>" 
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Estás seguro de eliminar este servicio?')">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </a>
+                    </div>
                     <?php else: ?>
                     <a href="index.php?page=quote&action=request" class="btn btn-primary btn-sm">
                         <i class="bi bi-plus-circle"></i> Solicitar Cotización

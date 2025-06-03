@@ -16,7 +16,7 @@ class PaymentController {
     }
 
     public function process() {
-        requireLogin();
+        requireLoginWithCache();
         
         if ($_SESSION['role'] === 'admin') {
             setMessage('Los administradores no pueden procesar pagos', 'warning');
@@ -62,7 +62,7 @@ class PaymentController {
     }
 
     public function list() {
-        requireLogin();
+        requireLoginWithCache();
         
         if ($_SESSION['role'] === 'admin') {
             $payments = $this->paymentModel->getAllPayments();

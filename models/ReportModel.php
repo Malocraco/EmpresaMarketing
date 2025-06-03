@@ -38,5 +38,12 @@ class ReportModel {
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getReportsCount() {
+        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM reportes");
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
 }
 ?>
