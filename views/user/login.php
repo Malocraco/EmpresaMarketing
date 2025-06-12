@@ -219,7 +219,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="login-container">
         <div class="container">
@@ -234,7 +233,6 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
                     <?php endif; ?>
-
                     <div class="card mx-auto">
                         <div class="card-header">
                             <h4>
@@ -259,7 +257,6 @@
                                         <input type="email" class="form-control" id="correo" name="correo" required>
                                     </div>
                                 </div>
-
                                 <div class="mb-4">
                                     <label for="password" class="form-label">Contraseña</label>
                                     <div class="input-group">
@@ -267,7 +264,6 @@
                                         <input type="password" class="form-control" id="password" name="password" required>
                                     </div>
                                 </div>
-
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-primary btn-lg">
                                         <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión

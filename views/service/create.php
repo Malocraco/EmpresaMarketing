@@ -160,4 +160,70 @@
         }
     });
 </script>
+
+<style>
+    .emoji-helper {
+        border: 1px solid #dee2e6;
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+
+    .emoji-category {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .emoji-helper span:not(.emoji-category) {
+        cursor: pointer;
+        padding: 2px 4px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+
+    .emoji-helper span:not(.emoji-category):hover {
+        background-color: var(--pink-light);
+    }
+</style>
+
+<script>
+    // Permitir hacer clic en los emojis para copiarlos
+    document.querySelectorAll('.emoji-helper span:not(.emoji-category)').forEach(span => {
+        span.addEventListener('click', function() {
+            const emoji = this.textContent.trim();
+            if (emoji) {
+                // Copiar al portapapeles
+                navigator.clipboard.writeText(emoji).then(() => {
+                    // Mostrar feedback visual
+                    this.style.backgroundColor = 'var(--pink-medium)';
+                    setTimeout(() => {
+                        this.style.backgroundColor = '';
+                    }, 300);
+                });
+            }
+        });
+    });
+
+    // Contador de caracteres para la descripción
+    document.getElementById('descripcion').addEventListener('input', function() {
+        const maxLength = 1000;
+        const currentLength = this.value.length;
+
+        // Crear o actualizar contador si no existe
+        let counter = document.getElementById('desc-counter');
+        if (!counter) {
+            counter = document.createElement('small');
+            counter.id = 'desc-counter';
+            counter.className = 'form-text text-muted';
+            this.parentNode.appendChild(counter);
+        }
+
+        counter.textContent = `${currentLength}/${maxLength} caracteres`;
+
+        if (currentLength > maxLength * 0.9) {
+            counter.className = 'form-text text-warning';
+        } else {
+            counter.className = 'form-text text-muted';
+        }
+    });
+</script>
 <?php require_once 'views/templates/footer.php'; ?>
