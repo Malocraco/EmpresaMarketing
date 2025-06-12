@@ -35,10 +35,16 @@ class PaymentController {
                 redirect('index.php?page=quote&action=list');
             }
             
+            // NUEVA VALIDACIÓN: Solo se puede pagar si el trabajo está completado
+            if ($quote['estado'] !== 'completada') {
+                setMessage('Solo puedes pagar cuando el trabajo esté completado y aprobado', 'warning');
+                redirect('index.php?page=quote&action=view&id=' . $cotizacion_id);
+            }
+            
             if ($this->paymentModel->processPayment($_SESSION['user_id'], $cotizacion_id, $monto, $metodo_pago)) {
-                // Actualizar estado de la cotización
-                $this->quoteModel->updateQuoteStatus($cotizacion_id, 'pagada');
-                setMessage('Pago procesado exitosamente');
+                // Actualizar estado de la cotización a 'pagada'
+                $this->quoteModel->updateQuoteStatus($cotizacion_id, 'pagada', 'Pago procesado exitosamente');
+                setMessage('¡Pago procesado exitosamente! Gracias por confiar en Marketing Valentina.');
                 redirect('index.php?page=quote&action=list');
             } else {
                 setMessage('Error al procesar el pago', 'danger');
@@ -53,6 +59,12 @@ class PaymentController {
             if (!$quote || $quote['usuario_id'] != $_SESSION['user_id']) {
                 setMessage('Cotización no válida', 'danger');
                 redirect('index.php?page=quote&action=list');
+            }
+            
+            // Verificar que el trabajo esté completado
+            if ($quote['estado'] !== 'completada') {
+                setMessage('El trabajo debe estar completado antes de poder realizar el pago', 'warning');
+                redirect('index.php?page=quote&action=view&id=' . $quote_id);
             }
             
             require_once 'views/payment/process.php';

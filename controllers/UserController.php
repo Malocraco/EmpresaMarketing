@@ -167,70 +167,70 @@ class UserController {
         require_once 'views/user/list.php';
     }
 
-public function edit() {
-    requireAdminWithCache();
-    
-    $id = $_GET['id'] ?? null;
-    if (!$id) {
-        setMessage('ID de usuario no válido', 'danger');
-        redirect('index.php?page=user&action=list');
-    }
-    
-    // No permitir que el admin se edite a sí mismo
-    if ($id == $_SESSION['user_id']) {
-        setMessage('No puedes editar tu propia cuenta desde aquí', 'warning');
-        redirect('index.php?page=user&action=list');
-    }
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = sanitize($_POST['username']);
-        $correo = sanitize($_POST['correo']);
+    public function edit() {
+        requireAdminWithCache();
         
-        if ($this->userModel->updateUserByAdmin($id, $username, $correo)) {
-            setMessage('Usuario actualizado exitosamente');
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            setMessage('ID de usuario no válido', 'danger');
             redirect('index.php?page=user&action=list');
-        } else {
-            setMessage('Error al actualizar el usuario. El correo ya existe.', 'danger');
         }
+        
+        // No permitir que el admin se edite a sí mismo
+        if ($id == $_SESSION['user_id']) {
+            setMessage('No puedes editar tu propia cuenta desde aquí', 'warning');
+            redirect('index.php?page=user&action=list');
+        }
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = sanitize($_POST['username']);
+            $correo = sanitize($_POST['correo']);
+            
+            if ($this->userModel->updateUserByAdmin($id, $username, $correo)) {
+                setMessage('Usuario actualizado exitosamente');
+                redirect('index.php?page=user&action=list');
+            } else {
+                setMessage('Error al actualizar el usuario. El correo ya existe.', 'danger');
+            }
+        }
+        
+        $user = $this->userModel->getUserById($id);
+        if (!$user) {
+            setMessage('Usuario no encontrado', 'danger');
+            redirect('index.php?page=user&action=list');
+        }
+        
+        require_once 'views/user/edit.php';
     }
-    
-    $user = $this->userModel->getUserById($id);
-    if (!$user) {
-        setMessage('Usuario no encontrado', 'danger');
-        redirect('index.php?page=user&action=list');
-    }
-    
-    require_once 'views/user/edit.php';
-}
 
-public function delete() {
-    requireAdminWithCache();
-    
-    $id = $_GET['id'] ?? null;
-    if (!$id) {
-        setMessage('ID de usuario no válido', 'danger');
+    public function delete() {
+        requireAdminWithCache();
+        
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            setMessage('ID de usuario no válido', 'danger');
+            redirect('index.php?page=user&action=list');
+        }
+        
+        // No permitir que el admin se elimine a sí mismo
+        if ($id == $_SESSION['user_id']) {
+            setMessage('No puedes eliminar tu propia cuenta', 'danger');
+            redirect('index.php?page=user&action=list');
+        }
+        
+        if ($this->userModel->deleteUser($id)) {
+            setMessage('Usuario eliminado exitosamente');
+        } else {
+            setMessage('Error al eliminar el usuario', 'danger');
+        }
+        
         redirect('index.php?page=user&action=list');
     }
-    
-    // No permitir que el admin se elimine a sí mismo
-    if ($id == $_SESSION['user_id']) {
-        setMessage('No puedes eliminar tu propia cuenta', 'danger');
-        redirect('index.php?page=user&action=list');
-    }
-    
-    if ($this->userModel->deleteUser($id)) {
-        setMessage('Usuario eliminado exitosamente');
-    } else {
-        setMessage('Error al eliminar el usuario', 'danger');
-    }
-    
-    redirect('index.php?page=user&action=list');
-}
 
-public function checkSession() {
-    header('Content-Type: application/json');
-    echo json_encode(['authenticated' => isLoggedIn()]);
-    exit();
-}
+    public function checkSession() {
+        header('Content-Type: application/json');
+        echo json_encode(['authenticated' => isLoggedIn()]);
+        exit();
+    }
 }
 ?>
