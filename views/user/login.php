@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,14 +15,14 @@
             --pink-dark: #e91e63;
             --pink-darker: #c2185b;
         }
-        
+
         body {
             background: linear-gradient(135deg, var(--pink-light) 0%, #fff 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
-        
+
         .login-container {
             flex: 1;
             display: flex;
@@ -29,7 +30,7 @@
             justify-content: center;
             padding: 40px 0;
         }
-        
+
         .card {
             border: none;
             box-shadow: 0 15px 35px rgba(233, 30, 99, 0.2);
@@ -40,7 +41,7 @@
             width: 100%;
             max-width: 400px;
         }
-        
+
         .card-header {
             background: linear-gradient(135deg, var(--pink-dark), var(--pink-darker));
             color: white;
@@ -48,22 +49,22 @@
             padding: 25px;
             text-align: center;
         }
-        
+
         .card-header h4 {
             margin: 0;
             font-weight: 600;
         }
-        
+
         .card-body {
             padding: 30px;
         }
-        
+
         .card-footer {
             padding: 20px 30px;
             background: rgba(248, 187, 217, 0.1);
             border: none;
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, var(--pink-dark), var(--pink-darker));
             border: none;
@@ -72,25 +73,25 @@
             font-weight: 600;
             border-radius: 12px;
         }
-        
+
         .btn-primary:hover {
             background: linear-gradient(135deg, var(--pink-darker), #ad1457);
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
         }
-        
+
         .form-control {
             border-radius: 12px;
             border: 2px solid #e0e0e0;
             padding: 12px 15px;
             transition: all 0.3s ease;
         }
-        
+
         .form-control:focus {
             border-color: var(--pink-medium);
             box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.25);
         }
-        
+
         .input-group-text {
             background: var(--pink-light);
             border: 2px solid #e0e0e0;
@@ -98,28 +99,28 @@
             border-radius: 12px 0 0 12px;
             color: var(--pink-dark);
         }
-        
+
         .input-group .form-control {
             border-left: none;
             border-radius: 0 12px 12px 0;
         }
-        
+
         .alert {
             border-radius: 12px;
             border: none;
             padding: 15px 20px;
         }
-        
+
         .alert-success {
             background-color: #e8f5e8;
             color: #2e7d32;
         }
-        
+
         .alert-info {
             background-color: var(--pink-light);
             color: var(--pink-darker);
         }
-        
+
         .alert-danger {
             background-color: #ffebee;
             color: #c62828;
@@ -164,9 +165,11 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
             }
+
             70% {
                 box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
             }
+
             100% {
                 box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
             }
@@ -192,19 +195,19 @@
                 right: 15px;
                 font-size: 26px;
             }
-            
+
             .login-container {
                 padding: 15px;
             }
-            
+
             .card {
                 max-width: 100%;
             }
-            
+
             .card-body {
                 padding: 25px;
             }
-            
+
             .card-footer {
                 padding: 15px 25px;
             }
@@ -216,6 +219,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="login-container">
         <div class="container">
@@ -230,17 +234,17 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
                     <?php endif; ?>
-                    
+
                     <div class="card mx-auto">
                         <div class="card-header">
                             <h4>
                                 <span class="lottie-megaphone-login">
-                                    <dotlottie-player src="https://lottie.host/93a0a4ee-0c2e-4def-a6b3-5769e41c3725/VIDQ79SSTB.lottie" 
-                                                      background="transparent" 
-                                                      speed="1" 
-                                                      style="width: 30px; height: 30px" 
-                                                      loop 
-                                                      autoplay>
+                                    <dotlottie-player src="https://lottie.host/93a0a4ee-0c2e-4def-a6b3-5769e41c3725/VIDQ79SSTB.lottie"
+                                        background="transparent"
+                                        speed="1"
+                                        style="width: 30px; height: 30px"
+                                        loop
+                                        autoplay>
                                     </dotlottie-player>
                                 </span>
                                 Iniciar Sesión
@@ -255,7 +259,7 @@
                                         <input type="email" class="form-control" id="correo" name="correo" required>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-4">
                                     <label for="password" class="form-label">Contraseña</label>
                                     <div class="input-group">
@@ -263,7 +267,7 @@
                                         <input type="password" class="form-control" id="password" name="password" required>
                                     </div>
                                 </div>
-                                
+
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-primary btn-lg">
                                         <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
@@ -272,7 +276,7 @@
                             </form>
                         </div>
                         <div class="card-footer text-center">
-                            <p class="mb-2">¿No tienes cuenta? 
+                            <p class="mb-2">¿No tienes cuenta?
                                 <a href="index.php?page=user&action=register" class="text-decoration-none fw-bold" style="color: var(--pink-dark);">
                                     Regístrate aquí
                                 </a>
@@ -290,10 +294,10 @@
     </div>
 
     <!-- Botón flotante de WhatsApp -->
-    <a href="https://wa.me/573043157669?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios%20de%20marketing%20digital" 
-       class="whatsapp-float pulse" 
-       target="_blank" 
-       title="Chatea con nosotros en WhatsApp">
+    <a href="https://wa.me/573043157669?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios%20de%20marketing%20digital"
+        class="whatsapp-float pulse"
+        target="_blank"
+        title="Chatea con nosotros en WhatsApp">
         <i class="bi bi-whatsapp"></i>
     </a>
 
@@ -302,4 +306,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -44,5 +44,4 @@
         </div>
     </div>
 </div>
-
 <?php require_once 'views/templates/footer.php'; ?>

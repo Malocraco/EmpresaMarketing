@@ -11,8 +11,8 @@
                     <form method="POST">
                         <div class="mb-3">
                             <label for="username" class="form-label">Nuevo Nombre de Usuario</label>
-                            <input type="text" class="form-control" id="username" name="username" 
-                                   value="<?= htmlspecialchars($_SESSION['username']) ?>" required>
+                            <input type="text" class="form-control" id="username" name="username"
+                                value="<?= htmlspecialchars($_SESSION['username']) ?>" required>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <a href="index.php?page=user&action=dashboard" class="btn btn-secondary">Cancelar</a>

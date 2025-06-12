@@ -306,3 +306,4 @@ $message = getMessage();
         title="Chatea con nosotros en WhatsApp">
         <i class="bi bi-whatsapp"></i>
     </a>
+    
