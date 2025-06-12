@@ -411,11 +411,11 @@
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 8px;
-    color: #333;
+    color:rgb(255, 255, 255);
 }
 
 .card-description {
-    color: #666;
+    color:rgb(255, 255, 255);
     font-size: 0.9rem;
     line-height: 1.4;
     margin-bottom: 0;
@@ -505,7 +505,7 @@
 }
 
 .payments-card .card-icon {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(253, 253, 253, 0.2);
 }
 
 .payments-card .card-decoration {
@@ -612,7 +612,7 @@
     position: absolute;
     width: 60px;
     height: 60px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(246, 243, 243, 0.15);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -659,7 +659,7 @@
     padding: 25px;
     display: flex;
     align-items: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 25px rgba(243, 241, 241, 0.08);
     transition: all 0.3s ease;
     flex: 1;
 }
@@ -701,18 +701,18 @@
 }
 
 .client-quotes-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
     color: white;
 }
 
 .client-payments-card {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
     color: white;
 }
 
 .client-quotes-card .card-icon,
 .client-payments-card .card-icon {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgb(211, 201, 201)
 }
 
 /* Servicios preview */
@@ -720,7 +720,7 @@
     background: white;
     border-radius: 25px;
     padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgb(251, 251, 251);
 }
 
 .services-header {
